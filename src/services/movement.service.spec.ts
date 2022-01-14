@@ -332,3 +332,38 @@ describe('test isValidPosition()', () => {
         }
     });
 });
+
+describe('test currentPosition()', () => {
+
+    const service = new RobotMovement(4,4);
+    
+    test('expect null', () => {
+        expect(service.currentPosition()).toBeNull();
+    });
+
+    test('x:0, y:0', () => {
+        const x = 0;
+        const y = 0
+        service.place(x,y,Direction.NORTH);
+        expect(service.currentPosition()).toEqual([x,y]);
+    });
+
+});
+
+describe('test currentDirection()', () => {
+
+    const service = new RobotMovement(4,4);
+    
+    test('expect null', () => {
+        expect(service.currentDirection()).toBeNull();
+    });
+
+    test('north', () => {
+        const x = 0;
+        const y = 0
+        const direction = Direction.NORTH
+        service.place(x,y,direction);
+        expect(service.currentDirection()).toEqual(direction);
+    });
+    
+});

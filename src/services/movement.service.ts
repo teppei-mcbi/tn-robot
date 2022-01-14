@@ -1,12 +1,14 @@
 import { Direction } from '../enums/direction';
 import { MovingObject, Robot } from '../models/moving-object'
 
-interface MovementService {
+export interface MovementService {
     place(x: number, y: number, direction: Direction)
     moveForward(): void;
     turnLeft(): void;
     turnRight(): void;
     isValidPosition(x: number, y: number): boolean;
+    currentPosition(): number[] | null;
+    currentDirection(): Direction | null;
 }
 
 /**
@@ -188,6 +190,32 @@ export class RobotMovement implements MovementService {
         }
         
         return valid;
+    }
+
+    /**
+     * Current position(x, y) for the robot
+     * 
+     * @returns number array to include x y like [x,y] or null if robot is not initialised 
+     */
+    currentPosition(): number[] | null {
+        if (this.robot) {
+            return [this.robot.currentX(), this.robot.currentY()];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Current facing direction for the robot
+     * 
+     * @returns direction or null if robot is not initialised 
+     */
+    currentDirection(): Direction | null {
+        if (this.robot) {
+            return this.robot.currentDirection();
+        } else {
+            return null;
+        }
     }
     
 }
