@@ -109,26 +109,36 @@ export class RobotCommandExecutor implements CommandExecuteService {
     execute(line: string): void {
 
         if (line.startsWith(Command.PLACE)) {
-            const params = line.split(' ')[1].split(',');
-            const x = Number.parseInt(params[0]);
-            const y = Number.parseInt(params[1]);
-            let direction: Direction = null;
 
-            switch (params[2]) {
-                case Direction.NORTH:
-                    direction = Direction.NORTH;
-                    break;
-                case Direction.EAST:
-                    direction = Direction.EAST;
-                    break;
-                case Direction.SOUTH:
-                    direction = Direction.SOUTH;
-                    break;
-                case Direction.WEST:
-                    direction = Direction.WEST;
-                    break;
-            }
-            this.movementService.place(x, y, direction)
+            const commandAndParams = line.split(' ');
+            if (commandAndParams.length == 2) {
+                const params = commandAndParams[1].split(',');
+                if (params.length === 3) {
+                    const x = Number.parseInt(params[0]);
+                    const y = Number.parseInt(params[1]);
+                    const facingDirection = params[2];
+                    let direction: Direction = null;
+        
+                    switch (facingDirection) {
+                        case Direction.NORTH:
+                            direction = Direction.NORTH;
+                            break;
+                        case Direction.EAST:
+                            direction = Direction.EAST;
+                            break;
+                        case Direction.SOUTH:
+                            direction = Direction.SOUTH;
+                            break;
+                        case Direction.WEST:
+                            direction = Direction.WEST;
+                            break;
+                    }
+
+                    if (direction) {
+                        this.movementService.place(x, y, direction)
+                    }
+                }                   
+            }    
 
         } else if (line === Command.MOVE) {
             this.movementService.moveForward();
