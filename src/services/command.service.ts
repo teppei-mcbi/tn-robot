@@ -8,8 +8,8 @@ export abstract class CommandValidateService {
 
     /**
      * Check if the given line is valid command
-     * 
-     * @param line 
+     *
+     * @param line
      */
     abstract isValidCommand(line: string): boolean;
 }
@@ -18,12 +18,12 @@ export abstract class CommandValidateService {
  * Class to validate the robot command
  */
 export class RobotCommandValidator extends CommandValidateService {
-    
+
     private readonly _commandDelimiter = ' ';
-    
+
     /**
      * Return true if the give parameter is valid command
-     * 
+     *
      * @param line single line string to include command
      * @returns boolean
      */
@@ -44,7 +44,7 @@ export class RobotCommandValidator extends CommandValidateService {
 
             case Command.PLACE:
                 const posDir = Utils.placePositionOrientation(line);
-                valid = posDir !== null;  
+                valid = posDir !== null;
                 break;
         }
 
@@ -53,14 +53,14 @@ export class RobotCommandValidator extends CommandValidateService {
 
     /**
      * Filter out invalid lines
-     * 
-     * @param lines 
+     *
+     * @param lines
      */
     validCommands(lines: string[]): string[] {
-        const commands = [];
+        const commands: string[] = [];
 
         // loop through and check if the line is valid command
-        for (let line of lines) {
+        for (const line of lines) {
             const trimmedText = line.trim();
             if (this.isValidCommand(trimmedText)) {
                 commands.push(trimmedText);
@@ -79,14 +79,14 @@ export class RobotCommandValidator extends CommandValidateService {
 export abstract class CommandExecuteService {
 
     protected movementService: MovementService;
-    
+
     constructor(service: MovementService) {
         this.movementService = service;
     }
 
     /**
      * Command: 'PLACE' can have different format/parameters
-     * 
+     *
      * @param line string value of 'PLACE' command
      */
     abstract placeValues(line: string): PositionOrientation;
@@ -102,14 +102,14 @@ export abstract class CommandExecuteService {
  * This class is used to excute the commands to move object
  */
 export class RobotCommandExecutor extends CommandExecuteService {
-    
+
     /**
      * Expecting command line 'PLACE <x>,<y>,<direction>'
-     * 
-     * NOTE: 
+     *
+     * NOTE:
      * - one space between <command: PLACE> and parameters: <x,y,direction>
      * - parameters are seperated by comma(no space)
-     * 
+     *
      * @param line place command of string
      * @returns if valid command, return 'PositionOrientation' value. otherwise return null
      */
@@ -134,8 +134,8 @@ export class RobotCommandExecutor extends CommandExecuteService {
     }
 
     /**
-     * Execute command from the given string 
-     * 
+     * Execute command from the given string
+     *
      * @param line string that contains command to move object
      */
     execute(line: string): void {
@@ -161,6 +161,5 @@ export class RobotCommandExecutor extends CommandExecuteService {
             this.report();
         }
     }
-    
-}
 
+}

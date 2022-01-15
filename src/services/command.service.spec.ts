@@ -36,22 +36,22 @@ describe('test isValidCommand()', () => {
 
     test('command: others', () => {
 
-        for (let command in Command) {
+        for (const command in Command) {
             if (command !== Command.PLACE) { // ignore 'PLACE' (test done abov)
-                let result = service.isValidCommand(command);
+                const result = service.isValidCommand(command);
                 expect(result).toBe(true);
             }
         }
 
         // try to add params
-        let result = service.isValidCommand('RIGHT 1,2,NORTH');
+        const result = service.isValidCommand('RIGHT 1,2,NORTH');
         expect(result).toBe(false);
 
         // some random
         const notCommands = ['right', 'BACK', 'POP', 'RIGHT 1,2,NORTH'];
-        for (let command of notCommands) {
-            let result = service.isValidCommand(command);
-            expect(result).toBe(false);
+        for (const command of notCommands) {
+            const isValid = service.isValidCommand(command);
+            expect(isValid).toBe(false);
         }
     });
 
@@ -61,7 +61,7 @@ describe('test validCommands()', () => {
     const service = new RobotCommandValidator();
 
     test('filter out invalid code', () => {
-        
+
         // 10 commands, 5 valid (index 0-4), 5 invalid (index 5-9)
         const numOfValidComamnds = 5;
         const lines = [
@@ -70,24 +70,22 @@ describe('test validCommands()', () => {
             , 'LEFT'
             , 'RIGHT'
             , 'REPORT'
-            , 'PLACE 1,2,SOUTHEAST' // invalid (SOUTHEAST is not included)  
+            , 'PLACE 1,2,SOUTHEAST' // invalid (SOUTHEAST is not included)
             , 'UP' // invalid
             , 'DOWN' // invalid
             , 'PLACE 0 2 NORTH' // invalid (not use comma for dilimiter for params)
-            , 'Move' // invalid (not uppercase) 
+            , 'Move' // invalid (not uppercase)
         ];
 
         const validCommands = service.validCommands(lines);
         expect(validCommands.length).toEqual(numOfValidComamnds);
 
         // index 0-4 has valid command
-        for (let i = 0; i < numOfValidComamnds; i++) {
+        for (const i = 0; i < numOfValidComamnds; i++) {
             expect(validCommands[i]).toEqual(lines[i]); // valid command
         }
-        
+
     });
-
-
 
 });
 
@@ -120,7 +118,7 @@ describe('test execute()', () => {
         commandExecutor.execute('PLACE 1 2 NORTH'); // still not valid as PLACE command needs params (x,y,direction)
         robot = movementService['robot'];
         expect(robot).toBeUndefined();
-        
+
         commandExecutor.execute('PLACE 1,2,SOUTHEAST'); // still not valid as PLACE command needs params (x,y,direction), direction is invalid
         robot = movementService['robot'];
         expect(robot).toBeUndefined();
@@ -139,8 +137,8 @@ describe('test execute()', () => {
             , 'LEFT' // face to 'WEST'
             , 'MOVE' // move (2,3) to (1,3)
         ];
-        
-        for (let line of lines) {
+
+        for (const line of lines) {
             commandExecutor.execute(line);
         }
 
@@ -162,8 +160,8 @@ describe('test execute()', () => {
             , 'LEFT' // face to 'NORTH'
             , 'REPORT'
         ];
-        
-        for (let line of lines) {
+
+        for (const line of lines) {
             commandExecutor.execute(line);
         }
 
@@ -187,7 +185,7 @@ describe('test execute()', () => {
           , 'MOVE' // to (2, 3)
         ];
 
-        for (let line of lines) {
+        for (const line of lines) {
             commandExecutor.execute(line);
         }
 

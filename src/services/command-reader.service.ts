@@ -16,22 +16,21 @@ export class CommandReader {
      */
     async runWithFile() {
         try {
-            
             // file path from command line argument
             const path = process.argv[2];
-            
+
             // store lines of strings from file
             const lines: string[] = [];
-            
+
             // read file async/await
             const dataString = await this.readFromFile(path);
-            
+
             // each line to array
             const arrayOfLines = dataString.replace(/\r\n/g, '\n').split('\n');
-            for (let line of arrayOfLines) {
+            for (const line of arrayOfLines) {
                 lines.push(line)
             }
-            
+
             // initialise services to execute commands
             const movementService = new RobotMovement(Constant.tableGridMaxIndexX, Constant.tableGridMaxIndexY);
             const commandExecutor = new RobotCommandExecutor(movementService);
@@ -40,19 +39,19 @@ export class CommandReader {
             const commandValidator = new RobotCommandValidator();
             const commands = commandValidator.validCommands(lines);
 
-            // loop through and execute commands            
-            for (let command of commands) {
+            // loop through and execute commands
+            for (const command of commands) {
                 commandExecutor.execute(command);
             }
-        
-        } catch (err) {
+
+        } catch (err: any) {
             LogService.logError(`error occured: ${err.message}`);
         }
     }
 
     /**
      * Read data from file
-     * 
+     *
      * @param path file path
      * @returns string data from file
      */

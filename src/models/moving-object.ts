@@ -2,13 +2,13 @@ import { Direction } from '../enums/direction';
 
 export interface MovingObject {
     setPosition(x: number, y: number, direction: Direction);
-    
+
     currentX(): number;
     setCurrentX(x: number): void;
-    
+
     currentY(): number;
     setCurrentY(y: number): void;
-    
+
     currentDirection(): Direction;
     setCurrentDirection(direction: Direction): void
 }
@@ -23,7 +23,7 @@ export interface PositionOrientation {
 }
 
 export class Robot implements MovingObject {
-    
+
     private x: number;
     private y: number;
     private direction: Direction;

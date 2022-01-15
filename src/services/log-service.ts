@@ -13,8 +13,8 @@ export default class LogService {
 
     /**
      * Log executing command if configured
-     * 
-     * @param message 
+     *
+     * @param message
      */
     static logExecutingCommand(message: string): void {
         this.log(message, LogType.ExecutingCommand);
@@ -22,8 +22,8 @@ export default class LogService {
 
     /**
      * Log invalid move if configured
-     * 
-     * @param message 
+     *
+     * @param message
      */
     static logInvalidMove(message: string): void {
         this.log(message, LogType.InvalidMove);
@@ -31,7 +31,7 @@ export default class LogService {
 
     /**
      * Log error if configured
-     * 
+     *
      * @param message
      */
     static logError(message: string): void {
@@ -40,8 +40,8 @@ export default class LogService {
 
     /**
      * Show log message
-     * 
-     * @param message 
+     *
+     * @param message
      */
     static showLog(message: string): void {
         console.log(message);
@@ -49,9 +49,9 @@ export default class LogService {
 
     /**
      * Log the message in cosole if configured
-     * 
-     * @param logMessage 
-     * @param type 
+     *
+     * @param logMessage
+     * @param type
      */
     private static log(logMessage: string, type: LogType) {
         if (this.isConfiguredToLog(type)) {
@@ -61,13 +61,13 @@ export default class LogService {
 
     /**
      * Return true if log type is configure to print message in cosole
-     * 
+     *
      * @param logType log type
-     * @returns 
+     * @returns
      */
     private static isConfiguredToLog(logType: LogType): boolean {
         const config = Constant.logConfig;
-        
+
         switch(logType) {
             case LogType.ExecutingCommand:
                 return config.showExecutingCommand;

@@ -3,7 +3,7 @@ import { MovingObject } from '../models/moving-object';
 import { RobotMovement } from './movement.service';
 
 describe('test place() function', () => {
-  
+
     test('test x pos', () => {
         const service = new RobotMovement(4,4);
         let robot;
@@ -27,7 +27,7 @@ describe('test place() function', () => {
             expect(robot.currentX()).toEqual(x);
         });
     });
-    
+
     test('test y pos', () => {
         const service = new RobotMovement(4,4);
         let robot: MovingObject;
@@ -55,7 +55,7 @@ describe('test place() function', () => {
 });
 
 describe('test moveForward() function', () => {
-    
+
     test('no robot yet', () => {
         const service = new RobotMovement(4,4);
         service.moveForward();
@@ -68,11 +68,10 @@ describe('test moveForward() function', () => {
         const service = new RobotMovement(4,maxY);
         const xPos = 0;
         const northDir = Direction.NORTH;
-        let robot: MovingObject;
 
         let yPos = 0;
         service.place(xPos, yPos, northDir); // x: 0, y:0, North
-        robot = service['robot'];
+        const robot: MovingObject = service['robot'];
 
         // loop and increment y position up max
         do {
@@ -91,12 +90,12 @@ describe('test moveForward() function', () => {
 
         // once getting max y position, it will be ignored
         expect(yPos).toEqual(maxY);
-    
+
         // try to move forward
         service.moveForward();
 
         // invalid move so position remains the same
-        expect(robot.currentY()).toEqual(yPos);        
+        expect(robot.currentY()).toEqual(yPos);
     });
 
     test('facing South', () => {
@@ -104,11 +103,10 @@ describe('test moveForward() function', () => {
         const service = new RobotMovement(4,maxY);
         const xPos = 0;
         const southDir = Direction.SOUTH;
-        let robot: MovingObject;
 
         let yPos = 4;
         service.place(xPos, yPos, southDir); // x: 0, y:4, South
-        robot = service['robot'];
+        const robot: MovingObject = service['robot'];
 
         // loop and decrement y position to 0
         do {
@@ -127,12 +125,12 @@ describe('test moveForward() function', () => {
 
         // once getting to y position: 0, it will be ignored
         expect(yPos).toEqual(0);
-    
+
         // try to move forward
         service.moveForward();
 
         // invalid move so position remains the same
-        expect(robot.currentY()).toEqual(yPos);        
+        expect(robot.currentY()).toEqual(yPos);
     });
 
 
@@ -141,11 +139,10 @@ describe('test moveForward() function', () => {
         const service = new RobotMovement(maxX,4);
         const yPos = 4;
         const eastDir = Direction.EAST;
-        let robot: MovingObject;
 
         let xPos = 0;
         service.place(xPos, yPos, eastDir); // x: 0, y:0, East
-        robot = service['robot'];
+        const robot: MovingObject = service['robot'];
 
         // loop and increment x position to nax
         do {
@@ -164,12 +161,12 @@ describe('test moveForward() function', () => {
 
         // once getting to x position: max, it will be ignored
         expect(xPos).toEqual(maxX);
-    
+
         // try to move forward
         service.moveForward();
 
         // invalid move so position remains the same
-        expect(robot.currentX()).toEqual(xPos);        
+        expect(robot.currentX()).toEqual(xPos);
     });
 
     test('facing West', () => {
@@ -177,11 +174,10 @@ describe('test moveForward() function', () => {
         const service = new RobotMovement(maxX,4);
         const yPos = 4;
         const westDir = Direction.WEST;
-        let robot: MovingObject;
 
         let xPos = 4;
         service.place(xPos, yPos, westDir); // x: 4, y:0, West
-        robot = service['robot'];
+        const robot: MovingObject = service['robot'];
 
         // loop and decrement x position to 0
         do {
@@ -200,18 +196,18 @@ describe('test moveForward() function', () => {
 
         // once getting to x position: 0, it will be ignored
         expect(xPos).toEqual(0);
-    
+
         // try to move forward
         service.moveForward();
 
         // invalid move so position remains the same
-        expect(robot.currentX()).toEqual(xPos);        
+        expect(robot.currentX()).toEqual(xPos);
     });
 });
 
 describe('test turnLeft()', () => {
     const service = new RobotMovement(4,4);
-    
+
     test('north -> west', () => {
         service.place(0, 0, Direction.NORTH);
         const robot = service['robot'];
@@ -252,7 +248,7 @@ describe('test turnLeft()', () => {
 
 describe('test turnRight()', () => {
     const service = new RobotMovement(4,4);
-    
+
     test('north -> east', () => {
         service.place(0, 0, Direction.NORTH);
         const robot = service['robot'];
@@ -336,7 +332,7 @@ describe('test isValidPosition()', () => {
 describe('test currentPosition()', () => {
 
     const service = new RobotMovement(4,4);
-    
+
     test('expect null', () => {
         expect(service.currentPosition()).toBeNull();
     });
@@ -353,7 +349,7 @@ describe('test currentPosition()', () => {
 describe('test currentDirection()', () => {
 
     const service = new RobotMovement(4,4);
-    
+
     test('expect null', () => {
         expect(service.currentDirection()).toBeNull();
     });
@@ -365,5 +361,5 @@ describe('test currentDirection()', () => {
         service.place(x,y,direction);
         expect(service.currentDirection()).toEqual(direction);
     });
-    
+
 });
