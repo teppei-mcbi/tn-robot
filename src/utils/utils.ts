@@ -2,7 +2,7 @@ import { Direction } from "../enums/direction";
 import { PositionOrientation } from "../models/moving-object";
 
 export default class Utils {
-    
+
     static placePositionOrientation(line: string): PositionOrientation | null {
         let x: number;
         let y: number;
