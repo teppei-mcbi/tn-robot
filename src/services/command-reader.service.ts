@@ -44,8 +44,10 @@ export class CommandReader {
                 commandExecutor.execute(command);
             }
 
-        } catch (err: any) {
-            LogService.logError(`error occured: ${err.message}`);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                LogService.logError(`error occured: ${err.message}`);
+            }
         }
     }
 
