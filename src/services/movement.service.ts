@@ -1,5 +1,6 @@
 import { Direction } from '../enums/direction';
 import { MovingObject, Robot } from '../models/moving-object'
+import LogService from './log-service';
 
 export interface MovementService {
     place(x: number, y: number, direction: Direction)
@@ -94,7 +95,7 @@ export class RobotMovement implements MovementService {
             }
 
         } else {
-            console.log(`Robot is not yet initialised`)
+            LogService.logInvalidMove('Robot is not yet initialised');
         }
     }
     
@@ -126,7 +127,7 @@ export class RobotMovement implements MovementService {
             this.robot.setCurrentDirection(nextDir);
 
         } else {
-            console.log(`Robot is not yet initialised`)
+            LogService.logInvalidMove('Robot is not yet initialised');
         }
     }
     
@@ -158,12 +159,13 @@ export class RobotMovement implements MovementService {
             this.robot.setCurrentDirection(nextDir);
 
         } else {
-            console.log(`Robot is not yet initialised`)
+            LogService.logInvalidMove('Robot is not yet initialised');
         }
     }
     
     /**
-     * Return true if the provided x, y positions are within the table
+     * Return true if the provided x, y positions are within the table.
+     * This should be check before command: PLACE, MOVE
      * 
      * @param x robot's x position
      * @param y robot's y position
@@ -173,19 +175,19 @@ export class RobotMovement implements MovementService {
         let valid = true;
 
         if (x < 0) {
-            console.error(`X pos is negative: ${x}`)
+            LogService.logInvalidMove(`X pos is negative: ${x}`);
             valid = false;
 
         } else if (this.maxX < x) {
-            console.error(`X pos: ${x} exceeds max X: ${this.maxX}`)
+            LogService.logInvalidMove(`X pos: ${x} exceeds max X: ${this.maxX}`)
             valid = false;
 
         } else if (y < 0) {
-            console.error(`Y pos is negative: ${y}`)
+            LogService.logInvalidMove(`Y pos is negative: ${y}`)
             valid = false;
 
         } else if (this.maxY < y) {
-            console.error(`Y pos: ${x} exceeds max Y: ${this.maxY}`)
+            LogService.logInvalidMove(`Y pos: ${x} exceeds max Y: ${this.maxY}`)
             valid = false;
         }
         

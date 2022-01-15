@@ -4,6 +4,7 @@ import { readFile, stat } from 'fs/promises';
 import { RobotCommandExecutor, RobotCommandValidator } from './command.service';
 import { RobotMovement } from './movement.service';
 import Constant from '../utils/constants';
+import LogService from './log-service';
 
 /**
  * Class to read command
@@ -31,18 +32,21 @@ export class CommandReader {
                 lines.push(line)
             }
             
+            // initialise services to execute commands
+            const movementService = new RobotMovement(Constant.tableGridMaxIndexX, Constant.tableGridMaxIndexY);
+            const commandExecutor = new RobotCommandExecutor(movementService);
+
+            // validate commands and filter out any invalid ones
             const commandValidator = new RobotCommandValidator();
             const commands = commandValidator.validCommands(lines);
 
-            const movementService = new RobotMovement(4, 4);
-            const commandExecutor = new RobotCommandExecutor(movementService);
-
+            // loop through and execute commands            
             for (let command of commands) {
                 commandExecutor.execute(command);
             }
         
         } catch (err) {
-            console.log(`error occured: ${err.message}`);
+            LogService.logError(`error occured: ${err.message}`);
         }
     }
 

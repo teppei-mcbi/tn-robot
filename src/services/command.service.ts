@@ -1,6 +1,7 @@
 import { Command } from '../enums/command';
 import { PositionOrientation } from '../models/moving-object';
 import Utils from '../utils/utils';
+import LogService from './log-service';
 import { MovementService } from './movement.service';
 
 export abstract class CommandValidateService {
@@ -128,7 +129,7 @@ export class RobotCommandExecutor extends CommandExecuteService {
             const x = xy[0];
             const y = xy[1];
 
-            console.log(`OUTPUT: ${x},${y},${direction}`);
+            LogService.showLog(`OUTPUT: ${x},${y},${direction}`);
         }
     }
 
@@ -138,6 +139,8 @@ export class RobotCommandExecutor extends CommandExecuteService {
      * @param line string that contains command to move object
      */
     execute(line: string): void {
+        // show the command to be executed if configured
+        LogService.logExecutingCommand(line);
 
         if (line.includes(Command.PLACE)) {
             const posDir = this.placeValues(line);
