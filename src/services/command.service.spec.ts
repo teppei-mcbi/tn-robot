@@ -81,7 +81,7 @@ describe('test validCommands()', () => {
         expect(validCommands.length).toEqual(numOfValidComamnds);
 
         // index 0-4 has valid command
-        for (const i = 0; i < numOfValidComamnds; i++) {
+        for (let i = 0; i < numOfValidComamnds; i++) {
             expect(validCommands[i]).toEqual(lines[i]); // valid command
         }
 
