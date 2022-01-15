@@ -19,7 +19,7 @@ export abstract class CommandValidateService {
  */
 export class RobotCommandValidator extends CommandValidateService {
 
-    private readonly _commandDelimiter = ' ';
+    private readonly commandDelimiter = ' ';
 
     /**
      * Return true if the give parameter is valid command
@@ -31,7 +31,7 @@ export class RobotCommandValidator extends CommandValidateService {
         let valid = false;
 
         const trimmed = line.trim(); // trim any extra space
-        const commandAndParams = trimmed.split(this._commandDelimiter);
+        const commandAndParams = trimmed.split(this.commandDelimiter);
         const command = commandAndParams[0];
 
         switch(command) {
