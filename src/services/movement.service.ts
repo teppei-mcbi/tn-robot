@@ -20,10 +20,10 @@ export class RobotMovement implements MovementService {
     private maxX: number;
     private maxY: number;
     private robot: MovingObject;
-    
+
     /**
      * Constructor for robot movement service
-     * 
+     *
      * @param x max limit of X pos
      * @param y max limit of Y pos
      */
@@ -31,27 +31,27 @@ export class RobotMovement implements MovementService {
         this.maxX = x;
         this.maxY = y;
     }
-    
+
     /**
      * Place the robot to specified position and facing direction
-     * 
-     * @param x robot's x position 
+     *
+     * @param x robot's x position
      * @param y robot's y position
      * @param direction robot's facing direction
      */
     place(x: number, y: number, direction: Direction) {
-        
+
         if (this.isValidPosition(x, y)) {
             if (!this.robot) {
                 // initialis 'Robot' object if not yet done
                 this.robot = new Robot();
-            }    
+            }
 
             // set the initial position
             this.robot.setPosition(x, y, direction);
         }
     }
-    
+
     /**
      * Moving the robot to forward by 1 grid
      */
@@ -59,28 +59,28 @@ export class RobotMovement implements MovementService {
         if (this.robot) {
             let nextX: number;
             let nextY: number;
-            
+
             // determine the next x/y pos
             switch (this.robot.currentDirection()) {
                 case Direction.NORTH: // move up
                     nextY = this.robot.currentY() + 1;
                     break;
-                
+
                 case Direction.EAST: // move right
                     nextX = this.robot.currentX() + 1;
                     break;
-            
+
                 case Direction.SOUTH: // move down
                     nextY = this.robot.currentY() - 1;
                     break;
-            
+
                 case Direction.WEST: // move left
                     nextX = this.robot.currentX() - 1;
                     break;
             }
 
             // check if the next pos is valid
-            if ( (nextX !== undefined && this.isValidPosition(nextX, this.robot.currentY()) || 
+            if ( (nextX !== undefined && this.isValidPosition(nextX, this.robot.currentY()) ||
                 nextY !== undefined && this.isValidPosition(this.robot.currentX(), nextY)) ) {
 
                 // set x pos for robot
@@ -98,7 +98,7 @@ export class RobotMovement implements MovementService {
             LogService.logInvalidMove('Robot is not yet initialised');
         }
     }
-    
+
     /**
      * Turn the robot by 90 degree to left
      */
@@ -130,8 +130,8 @@ export class RobotMovement implements MovementService {
             LogService.logInvalidMove('Robot is not yet initialised');
         }
     }
-    
-     /**
+
+    /**
      * Turn the robot by 90 degree to right
      */
     turnRight(): void {
@@ -162,11 +162,11 @@ export class RobotMovement implements MovementService {
             LogService.logInvalidMove('Robot is not yet initialised');
         }
     }
-    
+
     /**
      * Return true if the provided x, y positions are within the table.
      * This should be check before command: PLACE, MOVE
-     * 
+     *
      * @param x robot's x position
      * @param y robot's y position
      * @returns boolean for valid position (still within the table)
@@ -190,14 +190,14 @@ export class RobotMovement implements MovementService {
             LogService.logInvalidMove(`Y pos: ${x} exceeds max Y: ${this.maxY}`)
             valid = false;
         }
-        
+
         return valid;
     }
 
     /**
      * Current position(x, y) for the robot
-     * 
-     * @returns number array to include x y like [x,y] or null if robot is not initialised 
+     *
+     * @returns number array to include x y like [x,y] or null if robot is not initialised
      */
     currentPosition(): number[] | null {
         if (this.robot) {
@@ -209,8 +209,8 @@ export class RobotMovement implements MovementService {
 
     /**
      * Current facing direction for the robot
-     * 
-     * @returns direction or null if robot is not initialised 
+     *
+     * @returns direction or null if robot is not initialised
      */
     currentDirection(): Direction | null {
         if (this.robot) {
@@ -219,5 +219,5 @@ export class RobotMovement implements MovementService {
             return null;
         }
     }
-    
+
 }

@@ -12,5 +12,4 @@ export default class Constant {
         showInvalidMove: false,
         showError: true,
     }
-    
 }

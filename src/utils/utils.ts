@@ -9,11 +9,11 @@ export default class Utils {
         let direction: Direction = null;
 
         const commandAndParams = line.split(' ');
-        if (commandAndParams.length == 2) {
+        if (commandAndParams.length === 2) {
             const params = commandAndParams[1].split(',');
             if (params.length === 3) {
-                x = Number.parseInt(params[0]);
-                y = Number.parseInt(params[1]);
+                x = Number.parseInt(params[0], 10);
+                y = Number.parseInt(params[1], 10);
                 const facingDirection = params[2];
 
                 switch (facingDirection) {
@@ -32,7 +32,7 @@ export default class Utils {
                 }
             }
         }
-    
+
         if (Number.isInteger(x) && Number.isInteger(y) && direction) {
             return {x,y,direction};
         } else {

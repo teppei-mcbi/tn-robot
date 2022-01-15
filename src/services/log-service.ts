@@ -1,7 +1,9 @@
 import Constant from "../utils/constants";
 
 enum LogType {
-    ExecutingCommand, InvalidMove, Error
+    ExecutingCommand = 'ExecutingCommand',
+    InvalidMove = 'InvalidMove',
+    Error = 'Error',
 }
 
 /**
