@@ -1,6 +1,11 @@
-console.log(`${process.argv[2]}`)
-const path = process.argv[2];
+import { CommandReader } from "./src/services/command-reader.service";
 
-import { readFile } from './src/readfile';
-// readFile('./test-data/case1.txt');
-readFile(path);
+/**
+ * Entry point to execute robot challenge command line app
+ * 
+ * NOTE: 
+ * - command should be 'npx ts-node index.ts <file path>'
+ * - valid file path should be included as an argument
+ */
+const reader = new CommandReader();
+reader.runWithFile();
