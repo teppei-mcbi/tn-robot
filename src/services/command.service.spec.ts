@@ -74,8 +74,7 @@ describe('test validCommands()', () => {
             , 'UP' // invalid
             , 'DOWN' // invalid
             , 'PLACE 0 2 NORTH' // invalid (not use comma for dilimiter for params)
-            , 'Move' // invalid (not uppercase)
-            
+            , 'Move' // invalid (not uppercase) 
         ];
 
         const validCommands = service.validCommands(lines);

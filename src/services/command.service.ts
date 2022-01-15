@@ -1,21 +1,24 @@
 import { Command } from '../enums/command';
-import { Direction } from '../enums/direction';
+import { PositionOrientation } from '../models/moving-object';
+import Utils from '../utils/utils';
 import { MovementService } from './movement.service';
 
-export interface CommandValidateService {
+export abstract class CommandValidateService {
 
-    isValidCommand(line: string): boolean;
-    validCommands(lines: string[]): string[];
+    /**
+     * Check if the given line is valid command
+     * 
+     * @param line 
+     */
+    abstract isValidCommand(line: string): boolean;
 }
 
-export class RobotCommandValidator implements CommandValidateService {
+/**
+ * Class to validate the robot command
+ */
+export class RobotCommandValidator extends CommandValidateService {
     
-    private readonly commandDelimiter = ' ';
-    private readonly paramsDelimiter = ',';
-    private readonly paramLength = 3;
-    private readonly paramIndexPosX = 0;
-    private readonly paramIndexPosY = 1;
-    private readonly paramIndexDirection = 2
+    private readonly _commandDelimiter = ' ';
     
     /**
      * Return true if the give parameter is valid command
@@ -27,7 +30,7 @@ export class RobotCommandValidator implements CommandValidateService {
         let valid = false;
 
         const trimmed = line.trim(); // trim any extra space
-        const commandAndParams = trimmed.split(this.commandDelimiter);
+        const commandAndParams = trimmed.split(this._commandDelimiter);
         const command = commandAndParams[0];
 
         switch(command) {
@@ -39,25 +42,8 @@ export class RobotCommandValidator implements CommandValidateService {
                 break;
 
             case Command.PLACE:
-                if (commandAndParams.length === 2) { // expecting params
-                    // PLACE X,Y,F
-                    const params = commandAndParams[1].split(this.paramsDelimiter);
-                    if (params.length === this.paramLength) {
-                        const x = Number.parseInt(params[this.paramIndexPosX]);
-                        const y = Number.parseInt(params[this.paramIndexPosY]);
-                        const direction = params[this.paramIndexDirection];
-
-                        if (Number.isInteger(x) && Number.isInteger(y)) {
-                            // x, y is integer
-                            for (let d in Direction) { // direction matches
-                                if (d === direction) {
-                                    valid = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }                
+                const posDir = Utils.placePositionOrientation(line);
+                valid = posDir !== null;  
                 break;
         }
 
@@ -86,19 +72,64 @@ export class RobotCommandValidator implements CommandValidateService {
 }
 
 
-export interface CommandExecuteService {
-    execute(line: string): void;
+/**
+ * Abstract servic class to execute commands
+ */
+export abstract class CommandExecuteService {
+
+    protected movementService: MovementService;
+    
+    constructor(service: MovementService) {
+        this.movementService = service;
+    }
+
+    /**
+     * Command: 'PLACE' can have different format/parameters
+     * 
+     * @param line string value of 'PLACE' command
+     */
+    abstract placeValues(line: string): PositionOrientation;
+
+    /**
+     * Command: 'REPORT' can print result in different format
+     */
+    abstract report(): void;
+
 }
 
 /**
  * This class is used to excute the commands to move object
  */
-export class RobotCommandExecutor implements CommandExecuteService {
+export class RobotCommandExecutor extends CommandExecuteService {
     
-    private movementService: MovementService;
-    
-    constructor(service: MovementService) {
-        this.movementService = service;
+    /**
+     * Expecting command line 'PLACE <x>,<y>,<direction>'
+     * 
+     * NOTE: 
+     * - one space between <command: PLACE> and parameters: <x,y,direction>
+     * - parameters are seperated by comma(no space)
+     * 
+     * @param line place command of string
+     * @returns if valid command, return 'PositionOrientation' value. otherwise return null
+     */
+    placeValues(line: string): PositionOrientation | null {
+        return Utils.placePositionOrientation(line);
+    }
+
+    /**
+     * Show result in command line like this: 'OUTPUT: <x>,<y>,<direction>'
+     */
+    report(): void {
+        // retrieve values: x, y, direction
+        const xy = this.movementService.currentPosition();
+        const direction = this.movementService.currentDirection();
+
+        if (Array.isArray(xy) && xy.length === 2 && direction) {
+            const x = xy[0];
+            const y = xy[1];
+
+            console.log(`OUTPUT: ${x},${y},${direction}`);
+        }
     }
 
     /**
@@ -108,37 +139,11 @@ export class RobotCommandExecutor implements CommandExecuteService {
      */
     execute(line: string): void {
 
-        if (line.startsWith(Command.PLACE)) {
-
-            const commandAndParams = line.split(' ');
-            if (commandAndParams.length == 2) {
-                const params = commandAndParams[1].split(',');
-                if (params.length === 3) {
-                    const x = Number.parseInt(params[0]);
-                    const y = Number.parseInt(params[1]);
-                    const facingDirection = params[2];
-                    let direction: Direction = null;
-        
-                    switch (facingDirection) {
-                        case Direction.NORTH:
-                            direction = Direction.NORTH;
-                            break;
-                        case Direction.EAST:
-                            direction = Direction.EAST;
-                            break;
-                        case Direction.SOUTH:
-                            direction = Direction.SOUTH;
-                            break;
-                        case Direction.WEST:
-                            direction = Direction.WEST;
-                            break;
-                    }
-
-                    if (direction) {
-                        this.movementService.place(x, y, direction)
-                    }
-                }                   
-            }    
+        if (line.includes(Command.PLACE)) {
+            const posDir = this.placeValues(line);
+            if (posDir) {
+                this.movementService.place(posDir.x, posDir.y, posDir.direction);
+            }
 
         } else if (line === Command.MOVE) {
             this.movementService.moveForward();
@@ -150,14 +155,7 @@ export class RobotCommandExecutor implements CommandExecuteService {
             this.movementService.turnRight();
 
         } else if (line === Command.REPORT) {
-            const xy = this.movementService.currentPosition();
-            const direction = this.movementService.currentDirection();
-
-            if (Array.isArray(xy) && xy.length === 2 && direction) {
-                const x = xy[0];
-                const y = xy[1];
-                console.log(`OUTPUT: ${x},${y},${direction}`);
-            }
+            this.report();
         }
     }
     

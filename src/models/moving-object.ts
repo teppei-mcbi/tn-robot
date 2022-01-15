@@ -13,6 +13,15 @@ export interface MovingObject {
     setCurrentDirection(direction: Direction): void
 }
 
+/**
+ * Model for position: x, y and direction/orientation
+ */
+export interface PositionOrientation {
+    x: number;
+    y: number;
+    direction: Direction;
+}
+
 export class Robot implements MovingObject {
     
     private x: number;
