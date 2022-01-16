@@ -23,6 +23,8 @@ Run `npm run test` to execute the unit tests via [Jest](https://jestjs.io/).
 3. You can find 'case1.txt' file under the folder 'test-data' and this is used to run the command. You can modify this file
 4. Run the command with `npm run start` to see the result
 
-<!-- ## Future improvements
-
-- text here -->
+## Configs
+Under /config folder, .env file includes all the configuration for this app. You can specifiy:
+- table gird x,y values
+- log config
+- max file size limit
