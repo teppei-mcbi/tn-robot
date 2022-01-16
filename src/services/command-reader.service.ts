@@ -1,15 +1,73 @@
 import fs from 'fs';
 import { readFile, stat } from 'fs/promises';
+import * as readline from 'readline'
 
 import { RobotCommandExecutor, RobotCommandValidator } from './command.service';
 import { RobotMovement } from './movement.service';
 import LogService from './log-service';
+import { Command } from '../enums/command';
 
 /**
  * Class to read command
  */
 export class CommandReader {
 
+    private readLineInterface;
+
+    /**
+     * Initialise robot command executor
+     *
+     * @returns robot command executor to execute command
+     */
+    initExecutor(): RobotCommandExecutor {
+        // table grid (x, y)
+        const gridX = Number.parseInt(process.env.TABLE_GRID_MAX_X, 10);
+        const gridY = Number.parseInt(process.env.TABLE_GRID_MAX_Y, 10);
+
+        const movementService = new RobotMovement(gridX, gridY);
+        return new RobotCommandExecutor(movementService);
+    }
+
+    runWithUserInput() {
+        const executor = this.initExecutor();
+        
+        this.readLineInterface = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+        
+        // start waiting for user input
+        this.waitForUserInput(executor);
+    }
+
+    /**
+     * In command line, wait for user input.
+     * Once user type commmand and press enter key, the provided line of command
+     * will be executed.
+     *
+     * @param executor robot command executor
+     */
+    waitForUserInput(executor: RobotCommandExecutor) {
+
+        // show empty question and wait for user input
+        this.readLineInterface.question('', (line: string) => {
+            
+            // execute command
+            executor.execute(line);
+
+            
+            if (line === Command.REPORT) {
+                // once reported, finish taking user input and close app
+                this.readLineInterface.close();
+                process.exit(0);
+
+            } else {
+                // recursive, wait for another user input
+                this.waitForUserInput(executor);
+            }
+        });
+    }
+   
     /**
      * Run the app by reading command from file
      */
@@ -31,11 +89,7 @@ export class CommandReader {
             }
 
             // initialise services to execute commands
-            const gridX = Number.parseInt(process.env.TABLE_GRID_MAX_X, 10);
-            const gridY = Number.parseInt(process.env.TABLE_GRID_MAX_Y, 10);
-
-            const movementService = new RobotMovement(gridX, gridY);
-            const commandExecutor = new RobotCommandExecutor(movementService);
+            const commandExecutor = this.initExecutor();
 
             // validate commands and filter out any invalid ones
             const commandValidator = new RobotCommandValidator();

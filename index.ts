@@ -14,4 +14,5 @@ dotnet.config({ path: './config/.env'});
         
 // start reading a file to execute commands
 const reader = new CommandReader();
-reader.runWithFile();
+// reader.runWithFile();
+reader.runWithUserInput();
