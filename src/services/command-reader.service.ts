@@ -9,6 +9,8 @@ import { Command } from '../enums/command';
 
 /**
  * Class to read command
+ * 1. from command line: use function runWithUserInput()
+ * 2. from file: user function runWithFile()
  */
 export class CommandReader {
 
@@ -60,6 +62,7 @@ export class CommandReader {
             // execute command
             executor.execute(line);
 
+            // 'REPORT' command
             if (line === Command.REPORT) {
                 // once reported, finish taking user input and close app
                 this.closeReadLineAndExist();
@@ -81,6 +84,9 @@ export class CommandReader {
         });
     }
 
+    /**
+     * Close readline and exit from this app
+     */
     private closeReadLineAndExist() {
         this.readLineInterface.close();
         process.exit(0);

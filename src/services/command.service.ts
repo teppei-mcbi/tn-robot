@@ -1,5 +1,5 @@
 import { Command } from '../enums/command';
-import { PositionOrientation } from '../models/moving-object';
+import { PositionOrientation } from "../models/position-orientation";
 import Utils from '../utils/utils';
 import LogService from './log-service';
 import { MovementService } from './movement.service';

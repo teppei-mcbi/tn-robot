@@ -35,6 +35,8 @@ export class RobotMovement implements MovementService {
     /**
      * Place the robot to specified position and facing direction
      *
+     * Check if the specified x, y positions are valid. If so, place it.
+     *
      * @param x robot's x position
      * @param y robot's y position
      * @param direction robot's facing direction
@@ -53,7 +55,9 @@ export class RobotMovement implements MovementService {
     }
 
     /**
-     * Moving the robot to forward by 1 grid
+     * Moving the robot to forward by 1 unit
+     *
+     * Check if the this move is valid. If so, move it.
      */
     moveForward(): void {
         if (this.robot) {
@@ -195,7 +199,7 @@ export class RobotMovement implements MovementService {
     }
 
     /**
-     * Current position(x, y) for the robot
+     * Return current position(x, y) for the robot
      *
      * @returns number array to include x y like [x,y] or null if robot is not initialised
      */
