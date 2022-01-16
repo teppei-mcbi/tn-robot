@@ -38,6 +38,7 @@ export class RobotCommandValidator extends CommandValidateService {
             case Command.LEFT:
             case Command.RIGHT:
             case Command.MOVE:
+            case Command.REMOVE:
             case Command.REPORT:
                 valid = commandAndParams.length === 1;
                 break;
@@ -130,6 +131,9 @@ export class RobotCommandExecutor extends CommandExecuteService {
             const y = xy[1];
 
             LogService.showLog(`OUTPUT: ${x},${y},${direction}`);
+
+        } else {
+            LogService.showLog(`OUTPUT: no robot on table`);
         }
     }
 
@@ -156,6 +160,9 @@ export class RobotCommandExecutor extends CommandExecuteService {
 
         } else if (line === Command.RIGHT) {
             this.movementService.turnRight();
+
+        } else if (line === Command.REMOVE) {
+            this.movementService.remove();
 
         } else if (line === Command.REPORT) {
             this.report();

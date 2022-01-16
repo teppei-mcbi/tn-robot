@@ -7,6 +7,7 @@ export interface MovementService {
     moveForward(): void;
     turnLeft(): void;
     turnRight(): void;
+    remove(): void;
     isValidPosition(x: number, y: number): boolean;
     currentPosition(): number[] | null;
     currentDirection(): Direction | null;
@@ -30,6 +31,13 @@ export class RobotMovement implements MovementService {
     constructor(x: number, y: number) {
         this.maxX = x;
         this.maxY = y;
+    }
+    
+    /**
+     * Remove robot from table
+     */
+    remove(): void {
+        this.robot = undefined;
     }
 
     /**
