@@ -1,4 +1,4 @@
-import Constant from "../utils/constants";
+import Utils from "../utils/utils";
 
 enum LogType {
     ExecutingCommand = 'ExecutingCommand',
@@ -66,17 +66,15 @@ export default class LogService {
      * @returns
      */
     private static isConfiguredToLog(logType: LogType): boolean {
-        const config = Constant.logConfig;
-
         switch(logType) {
             case LogType.ExecutingCommand:
-                return config.showExecutingCommand;
+                return Utils.stringToBool(process.env.LOG_SHOW_EXECUTING_COMMAND);
 
             case LogType.InvalidMove:
-                return config.showInvalidMove;
+                return Utils.stringToBool(process.env.LOG_SHOW_INVALID_MOVE);
 
             case LogType.Error:
-                return config.showError;
+                return Utils.stringToBool(process.env.LOG_SHOW_ERROR);
 
             default:
                 return false;

@@ -3,7 +3,6 @@ import { readFile, stat } from 'fs/promises';
 
 import { RobotCommandExecutor, RobotCommandValidator } from './command.service';
 import { RobotMovement } from './movement.service';
-import Constant from '../utils/constants';
 import LogService from './log-service';
 
 /**
@@ -32,7 +31,10 @@ export class CommandReader {
             }
 
             // initialise services to execute commands
-            const movementService = new RobotMovement(Constant.tableGridMaxIndexX, Constant.tableGridMaxIndexY);
+            const gridX = Number.parseInt(process.env.TABLE_GRID_MAX_X);
+            const gridY = Number.parseInt(process.env.TABLE_GRID_MAX_Y);
+            
+            const movementService = new RobotMovement(gridX, gridY);
             const commandExecutor = new RobotCommandExecutor(movementService);
 
             // validate commands and filter out any invalid ones
@@ -68,12 +70,13 @@ export class CommandReader {
                 const fileSize = fileStat.size;
 
                 // check file size
-                if (fileSize <= Constant.maxFileSize) {
+                const maxFileSize = Number.parseInt(process.env.FILE_MAX_SIZE);
+                if (fileSize <= maxFileSize) {
                     const buffer = await readFile(path);
                     return buffer.toString();
 
                 } else { // file too big
-                    throw new Error(`file size: ${fileSize} is too big, max limit is ${Constant.maxFileSize} B`);
+                    throw new Error(`file size: ${fileSize} is too big, max limit is ${maxFileSize} B`);
                 }
 
             } else {

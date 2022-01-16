@@ -40,4 +40,14 @@ export default class Utils {
         }
     }
 
+    /**
+     * Pass string value for boolean and return true/false
+     * 
+     * @param stringValue string value of boolean
+     * @returns boolean value
+     */
+    static stringToBool(stringValue: string): boolean {
+        return stringValue && stringValue.toLocaleLowerCase() === 'true';
+    }  
+
 }
