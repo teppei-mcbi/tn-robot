@@ -12,7 +12,7 @@ import { Command } from '../enums/command';
  */
 export class CommandReader {
 
-    private readLineInterface;
+    private readLineInterface: readline.Interface;
 
     /**
      * Initialise robot command executor
@@ -28,14 +28,17 @@ export class CommandReader {
         return new RobotCommandExecutor(movementService);
     }
 
+    /**
+     * Run the app by reading command from command line
+     */
     runWithUserInput() {
         const executor = this.initExecutor();
-        
+
         this.readLineInterface = readline.createInterface({
             input: process.stdin,
             output: process.stdout
         });
-        
+
         // start waiting for user input
         this.waitForUserInput(executor);
     }
@@ -51,11 +54,10 @@ export class CommandReader {
 
         // show empty question and wait for user input
         this.readLineInterface.question('', (line: string) => {
-            
+
             // execute command
             executor.execute(line);
 
-            
             if (line === Command.REPORT) {
                 // once reported, finish taking user input and close app
                 this.readLineInterface.close();
@@ -67,7 +69,7 @@ export class CommandReader {
             }
         });
     }
-   
+
     /**
      * Run the app by reading command from file
      */

@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "npx ts-node index.ts ./test-data/case1.txt",
-    "start_cmd": "npx ts-node index.ts",
     "test": "jest",
     "lint": "eslint -c .eslintrc.js --ext .ts src"
   },
