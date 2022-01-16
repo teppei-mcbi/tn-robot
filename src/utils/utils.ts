@@ -3,6 +3,12 @@ import { PositionOrientation } from "../models/moving-object";
 
 export default class Utils {
 
+    /**
+     * Pass line of command string and return position(x,y) and direction/orientation
+     *
+     * @param line string command
+     * @returns position and orientation
+     */
     static placePositionOrientation(line: string): PositionOrientation | null {
         let x: number;
         let y: number;
@@ -42,12 +48,17 @@ export default class Utils {
 
     /**
      * Pass string value for boolean and return true/false
-     * 
+     *
      * @param stringValue string value of boolean
      * @returns boolean value
      */
     static stringToBool(stringValue: string): boolean {
-        return stringValue && stringValue.toLocaleLowerCase() === 'true';
-    }  
+        // string is not empty
+        if (stringValue) {
+            return stringValue.toLocaleLowerCase() === 'true';
+        } else {
+            return false;
+        }
+    }
 
 }

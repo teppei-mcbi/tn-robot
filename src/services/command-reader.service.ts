@@ -31,9 +31,9 @@ export class CommandReader {
             }
 
             // initialise services to execute commands
-            const gridX = Number.parseInt(process.env.TABLE_GRID_MAX_X);
-            const gridY = Number.parseInt(process.env.TABLE_GRID_MAX_Y);
-            
+            const gridX = Number.parseInt(process.env.TABLE_GRID_MAX_X, 10);
+            const gridY = Number.parseInt(process.env.TABLE_GRID_MAX_Y, 10);
+
             const movementService = new RobotMovement(gridX, gridY);
             const commandExecutor = new RobotCommandExecutor(movementService);
 
@@ -70,7 +70,7 @@ export class CommandReader {
                 const fileSize = fileStat.size;
 
                 // check file size
-                const maxFileSize = Number.parseInt(process.env.FILE_MAX_SIZE);
+                const maxFileSize = Number.parseInt(process.env.FILE_MAX_SIZE, 10);
                 if (fileSize <= maxFileSize) {
                     const buffer = await readFile(path);
                     return buffer.toString();
