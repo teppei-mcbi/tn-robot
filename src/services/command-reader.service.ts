@@ -5,7 +5,6 @@ import * as readline from 'readline'
 import { RobotCommandExecutor, RobotCommandValidator } from './command.service';
 import { RobotMovement } from './movement.service';
 import LogService from './log-service';
-import { Command } from '../enums/command';
 
 /**
  * Class to read command
@@ -36,6 +35,7 @@ export class CommandReader {
      * Run the app by reading command from command line
      */
     runWithUserInput() {
+        // init command excutor
         const executor = this.initExecutor();
 
         this.readLineInterface = readline.createInterface({
@@ -49,8 +49,7 @@ export class CommandReader {
 
     /**
      * In command line, wait for user input.
-     * Once user type commmand and press enter key, the provided line of command
-     * will be executed.
+     * Once user type commmand and press enter key, the provided line of command will be executed.
      *
      * @param executor robot command executor
      */
@@ -71,7 +70,7 @@ export class CommandReader {
                 this.waitForUserInput(executor);
 
             } else {
-                // log and force to finish
+                // log and force to finish as reached to max limit of user input
                 LogService.logError(`Reached to the max number of user input (limit: ${this.userInputLimit}). Close the app`);
                 this.closeReadLineAndExist();
             }
@@ -143,7 +142,7 @@ export class CommandReader {
 
                 // check file size
                 const maxFileSize = Number.parseInt(process.env.FILE_MAX_SIZE, 10);
-                if (fileSize <= maxFileSize) {
+                if (fileSize <= maxFileSize) { // within the file size limit
                     const buffer = await readFile(path);
                     return buffer.toString();
 

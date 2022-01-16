@@ -7,11 +7,11 @@ import LogService from './src/services/log-service';
  * Entry point to execute robot challenge command line app
  * 
  * NOTE: 
- * - two modes to read data
+ * - two modes to read data (configured in /config/.env file: READ_INPUT_MODE)
  *      1: CMD - user input from command promst
  *      2: FILE - read from file
  * 
- * - with CMD, user needs to type command and press Enter key.
+ * - with CMD, user needs to type command and press Enter key for each command
  * - with FILE, user needs to provide a file path in npx command like 'npx ts-node index.ts <file path>'
  * - valid file path should be included as an argument
  */
