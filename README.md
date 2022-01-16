@@ -36,4 +36,4 @@ Under /config folder, .env file includes all the configuration for this app. You
 Set `READ_INPUT_MODE=CMD` in /config/.env file and run `npm run start`. Type commands and press Enter key. Ctrl + c to terminate the app.
 
 2. FILE mode
-Set `READ_INPUT_MODE=FILE` in /config/.env file, include file path in start script like `npx ts-node index.ts ./test-data/case1.txt` and run `npm run start`. The app will read a file and execute the commands and be terminated after finishing all the command. I added some more test files under folder /test-data.
+Set `READ_INPUT_MODE=FILE` in /config/.env file, include file path in start script like `npx ts-node index.ts ./test-data/case1.txt` and run `npm run start`. The app will read a file and execute the commands and be terminated after finishing all the command. There are some more test files under folder /test-data.
