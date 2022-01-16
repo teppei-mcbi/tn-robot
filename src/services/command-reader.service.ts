@@ -13,13 +13,15 @@ import { Command } from '../enums/command';
 export class CommandReader {
 
     private readLineInterface: readline.Interface;
+    private cmdUserInputCount = 0;
+    private readonly userInputLimit = Number.parseInt(process.env.CMD_INPUT_MAX, 10);
 
     /**
      * Initialise robot command executor
      *
      * @returns robot command executor to execute command
      */
-    initExecutor(): RobotCommandExecutor {
+    private initExecutor(): RobotCommandExecutor {
         // table grid (x, y)
         const gridX = Number.parseInt(process.env.TABLE_GRID_MAX_X, 10);
         const gridY = Number.parseInt(process.env.TABLE_GRID_MAX_Y, 10);
@@ -50,7 +52,7 @@ export class CommandReader {
      *
      * @param executor robot command executor
      */
-    waitForUserInput(executor: RobotCommandExecutor) {
+    private waitForUserInput(executor: RobotCommandExecutor) {
 
         // show empty question and wait for user input
         this.readLineInterface.question('', (line: string) => {
@@ -60,14 +62,28 @@ export class CommandReader {
 
             if (line === Command.REPORT) {
                 // once reported, finish taking user input and close app
-                this.readLineInterface.close();
-                process.exit(0);
+                this.closeReadLineAndExist();
 
             } else {
-                // recursive, wait for another user input
-                this.waitForUserInput(executor);
+                this.cmdUserInputCount++;
+
+                // not yet reached to max user input limit
+                if (this.cmdUserInputCount < this.userInputLimit) {
+                    // recursive, wait for another user input
+                    this.waitForUserInput(executor);
+
+                } else {
+                    // log and force to finish
+                    LogService.logError(`Reached to the max number of user input (limit: ${this.userInputLimit}). Close the app`);
+                    this.closeReadLineAndExist();
+                }
             }
         });
+    }
+
+    private closeReadLineAndExist() {
+        this.readLineInterface.close();
+        process.exit(0);
     }
 
     /**
@@ -143,5 +159,4 @@ export class CommandReader {
             throw err;
         }
     }
-
 }

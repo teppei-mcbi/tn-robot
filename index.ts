@@ -32,7 +32,7 @@ switch(readInputMode) {
         break;
 
     case InputMode.FILE:
-        // read commands from file
+        // read commands from file, make sure that <file path> is included in npm command
         reader.runWithFile();
         break;
 
