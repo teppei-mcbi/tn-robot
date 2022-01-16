@@ -25,7 +25,7 @@ Run `npm run test` to execute the unit tests via [Jest](https://jestjs.io/).
 
 ## Configs
 Under /config folder, .env file includes all the configuration for this app. You can specifiy:
-- table gird x,y values
+- table gird x,y values (table dimension 4x4 can be changed to any other values)
 - log config
 - read input mode (CMD/FILE)
 - max number of user input limit
@@ -33,7 +33,7 @@ Under /config folder, .env file includes all the configuration for this app. You
 
 ## How to test
 1. CMD mode
-Set `READ_INPUT_MODE=CMD` in /config/.env file and run `npm run start`. Type commands and press Enter key. Command: 'REPORT' will print out the result and app will be terminated
+Set `READ_INPUT_MODE=CMD` in /config/.env file and run `npm run start`. Type commands and press Enter key. Ctrl + c to terminate the app.
 
 2. FILE mode
-Set `READ_INPUT_MODE=FILE` in /config/.env file, include file path in start script like `npx ts-node index.ts ./test-data/case1.txt` and run `npm run start`. The app will read a file and execute the commands and be terminated after finishing all the command.
+Set `READ_INPUT_MODE=FILE` in /config/.env file, include file path in start script like `npx ts-node index.ts ./test-data/case1.txt` and run `npm run start`. The app will read a file and execute the commands and be terminated after finishing all the command. I added some more test files under folder /test-data.

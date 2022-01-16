@@ -130,6 +130,8 @@ export class RobotCommandExecutor extends CommandExecuteService {
             const y = xy[1];
 
             LogService.showLog(`OUTPUT: ${x},${y},${direction}`);
+        } else {
+            LogService.logError(`No position or direction`);
         }
     }
 

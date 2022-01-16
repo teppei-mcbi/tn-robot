@@ -62,24 +62,18 @@ export class CommandReader {
             // execute command
             executor.execute(line);
 
-            // 'REPORT' command
-            if (line === Command.REPORT) {
-                // once reported, finish taking user input and close app
-                this.closeReadLineAndExist();
+            // increment user input count
+            this.cmdUserInputCount++;
+
+            // if not yet reached to max user input limit
+            if (this.cmdUserInputCount < this.userInputLimit) {
+                // recursive, wait for another user input
+                this.waitForUserInput(executor);
 
             } else {
-                this.cmdUserInputCount++;
-
-                // not yet reached to max user input limit
-                if (this.cmdUserInputCount < this.userInputLimit) {
-                    // recursive, wait for another user input
-                    this.waitForUserInput(executor);
-
-                } else {
-                    // log and force to finish
-                    LogService.logError(`Reached to the max number of user input (limit: ${this.userInputLimit}). Close the app`);
-                    this.closeReadLineAndExist();
-                }
+                // log and force to finish
+                LogService.logError(`Reached to the max number of user input (limit: ${this.userInputLimit}). Close the app`);
+                this.closeReadLineAndExist();
             }
         });
     }

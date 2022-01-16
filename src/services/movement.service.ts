@@ -191,7 +191,7 @@ export class RobotMovement implements MovementService {
             valid = false;
 
         } else if (this.maxY < y) {
-            LogService.logInvalidMove(`Y pos: ${x} exceeds max Y: ${this.maxY}`)
+            LogService.logInvalidMove(`Y pos: ${y} exceeds max Y: ${this.maxY}`)
             valid = false;
         }
 
