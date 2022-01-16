@@ -1,5 +1,5 @@
 import { Direction } from "../enums/direction";
-import { PositionOrientation } from "../models/moving-object";
+import { PositionOrientation } from "../models/position-orientation";
 
 export default class Utils {
 

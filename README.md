@@ -2,7 +2,7 @@
 
 Code test: Robot challenge
 
-With this app, the app reads a text file under the folder: 'test-data' and the file should include all the commands.
+With this app, the app reads a text file under the folder: 'test-data' and the text file should include all the commands. Also by changing the mode  in config, you can read user input from command line.
 
 ## Start command line app
 
@@ -25,6 +25,15 @@ Run `npm run test` to execute the unit tests via [Jest](https://jestjs.io/).
 
 ## Configs
 Under /config folder, .env file includes all the configuration for this app. You can specifiy:
-- table gird x,y values
+- table gird x,y values (table dimension 4x4 can be changed to any other values)
 - log config
+- read input mode (CMD/FILE)
+- max number of user input limit
 - max file size limit
+
+## How to test
+1. CMD mode
+Set `READ_INPUT_MODE=CMD` in /config/.env file and run `npm run start`. Type commands and press Enter key. Ctrl + C to terminate the app.
+
+2. FILE mode
+Set `READ_INPUT_MODE=FILE` in /config/.env file, include file path in start script like `npx ts-node index.ts ./test-data/case1.txt` and run `npm run start`. The app will read a file and execute the commands and be terminated after finishing all the command. There are some more test files under folder /test-data.

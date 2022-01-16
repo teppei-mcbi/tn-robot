@@ -1,6 +1,10 @@
 import { Direction } from '../enums/direction';
 
+/**
+ * moving object interface
+ */
 export interface MovingObject {
+
     setPosition(x: number, y: number, direction: Direction);
 
     currentX(): number;
@@ -14,14 +18,8 @@ export interface MovingObject {
 }
 
 /**
- * Model for position: x, y and direction/orientation
+ * Robot class to move by commands
  */
-export interface PositionOrientation {
-    x: number;
-    y: number;
-    direction: Direction;
-}
-
 export class Robot implements MovingObject {
 
     private x: number;

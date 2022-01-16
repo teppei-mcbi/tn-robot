@@ -1,5 +1,5 @@
 import { Command } from '../enums/command';
-import { PositionOrientation } from '../models/moving-object';
+import { PositionOrientation } from "../models/position-orientation";
 import Utils from '../utils/utils';
 import LogService from './log-service';
 import { MovementService } from './movement.service';
@@ -130,6 +130,8 @@ export class RobotCommandExecutor extends CommandExecuteService {
             const y = xy[1];
 
             LogService.showLog(`OUTPUT: ${x},${y},${direction}`);
+        } else {
+            LogService.logError(`No position or direction`);
         }
     }
 
